@@ -13,6 +13,12 @@ asmlinkage long new_sys_open(const char __user *filename,
 				int flags, umode_t mode) 
 {
 	printk(KERN_INFO "***** Intercepted the open function! *****");
+	int currentUser = current_uid();
+	if(currentUser < 1000) 
+	{
+		ref_sys_open(filename, flags, mode);
+	}
+
 	return 0;
 }
 
