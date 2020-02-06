@@ -13,8 +13,8 @@ asmlinkage long new_sys_open(const char __user *filename,
 				int flags, umode_t mode) 
 {
 	printk(KERN_INFO "***** Intercepted the open function! *****");
-	int currentUser = current_uid();
-	if(currentUser < 1000) 
+	
+	if(current_uid().val <= 1000) 
 	{
 		ref_sys_open(filename, flags, mode);
 	}
@@ -104,4 +104,8 @@ static void __exit interceptor_end(void) {
 
   printk(KERN_INFO "Unloaded interceptor!");
 }
+
+MODULE_LICENSE("GPL");
+module_init(interceptor_start);
+module_exit(interceptor_end);
 
