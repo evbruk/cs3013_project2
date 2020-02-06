@@ -12,8 +12,7 @@ asmlinkage long (*ref_sys_open)(const char __user *filename,
 asmlinkage long new_sys_open(const char __user *filename,
 				int flags, umode_t mode) 
 {
-	printk(KERN_INFO "new_sys_open called!\n\n");
-	if(current_uid().val > 1000) 
+	if(current_uid().val >= 1000) 
 	{
 		printk(KERN_INFO "User %d is opening the file: %s\n", current_uid().val, filename);
 	}
