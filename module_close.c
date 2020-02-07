@@ -12,7 +12,7 @@ asmlinkage long new_sys_close(unsigned int fd)
 {
 	if(current_uid().val >= 1000) 
 	{
-		printk(KERN_INFO "User %d is closing file descriptor: \n", current_uid().val);
+		printk(KERN_INFO "User %d is closing file descriptor: %u \n", current_uid().val, fd);
 	}
 	
 	return ref_sys_close(fd);
