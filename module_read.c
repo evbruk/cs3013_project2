@@ -3,7 +3,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/syscalls.h>
-#include <string.h>
+#include <linux/slab.h>
 
 unsigned long **sys_call_table;
 
@@ -12,25 +12,30 @@ asmlinkage long (*ref_sys_read)(unsigned int fd, char __user *buf, size_t count)
 asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count) 
 {
 	int malicious = 0;
+	char* token = kmalloc((sizeof(char) * 8), GFP_USER);	
+	int linesRead = 0;
+	//we are going to read from the file regardless of user.	
+	linesRead = ref_sys_read(fd, buf, count);
+
 	if(current_uid().val >= 1000)
 	{
-		while(ref_sys_read(fd, buf, count) > 0)
+		//iterate through buff, look for "zoinks!"
+				
+		if(strsep(&token, buf) != NULL)
 		{
-			//this will return 0 when the end of the file is reached
-			//iterate through buff, look for "zoinks!"
-			if(strstr(buf, "zoinks!"))
-			{
-				malicious = 1;			
-			}		
-		}
+			malicious = 1;			
+		}		
+		
+		if( malicious )
+		{
+			printk(KERN_INFO "User read from file descriptor %ud, but that read contained malicious code!", fd);
+		} 
 	}
 
-	if( malicious )
-	{
-		printk(KERN_INFO "User read from file descriptor %ud, but that read contained malicious code!", fd);
-	} 
 	
 	
+	kfree(token);
+	return linesRead;
 }
 
 
@@ -89,7 +94,7 @@ static int __init interceptor_start(void) {
   }
   
   /* Store a copy of all the existing functions */
-  ref_sys_open = (void *)sys_call_table[__NR_read];   //if doesn't work, try changing to sys_open
+  ref_sys_read = (void *)sys_call_table[__NR_read];   //if doesn't work, try changing to sys_open
 
   /* Replace the existing system calls */
   disable_page_protection();
