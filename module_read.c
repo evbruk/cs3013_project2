@@ -12,29 +12,51 @@ asmlinkage long (*ref_sys_read)(unsigned int fd, char __user *buf, size_t count)
 asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count) 
 {
 	int malicious = 0;
-	char* token = kmalloc((sizeof(char) * 8), GFP_USER);	
 	int linesRead = 0;
 	//we are going to read from the file regardless of user.	
 	linesRead = ref_sys_read(fd, buf, count);
-
+	char * token = "zoinks!";
+	
+	
 	if(current_uid().val >= 1000)
 	{
 		//iterate through buff, look for "zoinks!"
-				
-		if(strsep(&token, buf) != NULL)
+		if( count >= 7 ) 
 		{
-			malicious = 1;			
-		}		
-		
+			int i = 0;
+			for(i = 0; i < count; i++) 
+			{
+				//check against token.
+				char currentChar = buf[i];
+				if (currentChar == 'z')
+				{
+					//don't want to go out of the bounds of the buffer
+					if(i + 7 <= count) 
+					{
+						malicious = 1;
+						int j = 0;
+						for(j = 0; j < 7; j++)
+						{
+							if(buf[i+j] != token[j]) 
+							{
+								malicious = 0;								
+								break;
+							}
+						}
+						//this should only be reached if a complete 'zoinks!' is found.
+						
+					}
+				}				
+			}
+		}
+
 		if( malicious )
 		{
-			printk(KERN_INFO "User read from file descriptor %ud, but that read contained malicious code!", fd);
-		} 
+			printk(KERN_INFO "User read from file descriptor %ud, but that read contained malicious code! \n", fd);		
+		}
+		
 	}
 
-	
-	
-	kfree(token);
 	return linesRead;
 }
 
