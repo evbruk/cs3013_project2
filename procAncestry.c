@@ -6,12 +6,20 @@
 #include <linux/syscalls.h>
 #include <linux/slab.h>
 #include <asm/current.h>
-#include "ancestry.h" 
+
+#include <asm/errno.h>
 
 
 unsigned long **sys_call_table;
 
 asmlinkage long (*ref_sys_cs3013_syscall2)(void);
+
+struct ancestry 
+{
+	pid_t ancestors[10];
+	pid_t siblings[100];
+	pid_t children[100];
+};
 
 asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ancestry *response) {
 	//do something with the target pid
@@ -20,6 +28,20 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 	currentTask = current;
 	
 	struct task_struct* parentPointer = currentTask->real_parent;
+	int traversing = 1;
+	while(traversing) 
+	{
+		printk(KERN_INFO "traversing...\n");
+		if( parentPointer->real_parent != NULL ) 
+		{
+			parentPointer = parentPointer->real_parent;		
+		}else
+		{
+			traversing = 0;		
+		}
+	}
+
+/*
 	while( (parentPointer = parentPointer->real_parent) != NULL) 
 	{
 			
@@ -27,7 +49,7 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 	pid_t pid_of_top = parentPointer->pid;
 	//at this point parentPointer should be init
 	printk(KERN_INFO "Finished traversing process tree. \n");
-	printk(KERN_INFO "PID of top process: %d \n", pid_of_top);
+	printk(KERN_INFO "PID of top process: %d \n", pid_of_top);*/
 	
 	return 0;
 }
