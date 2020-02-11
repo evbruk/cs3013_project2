@@ -26,30 +26,55 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 	//populate the ancestry struct
 	struct task_struct* currentTask;
 	currentTask = current;
+	int pid = 0;
 	
-	struct task_struct* parentPointer = currentTask->real_parent;
-	int traversing = 1;
-	while(traversing) 
+	struct ancestry localResponse;
+	if( copy_from_user(&pid, target_pid, sizeof(int)) )
 	{
-		printk(KERN_INFO "traversing...\n");
-		if( parentPointer->real_parent != NULL ) 
-		{
-			parentPointer = parentPointer->real_parent;		
-		}else
-		{
-			traversing = 0;		
-		}
+		return EFAULT;	
+	}	
+	
+	if( copy_from_user( &localResponse, response, sizeof(struct ancestry)) )
+	{
+		return EFAULT;	
 	}
 
-/*
-	while( (parentPointer = parentPointer->real_parent) != NULL) 
+	struct task_struct* parentPointer = currentTask->real_parent;
+	
+	while(parentPointer != parentPointer->real_parent) 
 	{
-			
+		printk(KERN_INFO "PID: %d \n", parentPointer->pid);
+		if(parentPointer->pid == 1)
+		{
+			break;		
+		}
+		if(parentPointer->pid > 0) 
+		{
+			parentPointer = parentPointer->real_parent;				
+		}
 	}
-	pid_t pid_of_top = parentPointer->pid;
-	//at this point parentPointer should be init
-	printk(KERN_INFO "Finished traversing process tree. \n");
-	printk(KERN_INFO "PID of top process: %d \n", pid_of_top);*/
+	
+	struct task_struct *task;
+	struct list_head *list;
+	struct task_struct *targetTask;
+	printk(KERN_INFO "PID of parentPointer: %d \n", parentPointer->pid);
+	
+	int searching = 1;
+	while(searching)
+	{
+		list_for_each(list, &(parentPointer->children)) 
+		{
+			task=list_entry(list, struct task_struct, sibling);
+			if(task->pid == pid)
+			{
+				printk(KERN_INFO "Specified task found! \n");
+				targetTask = task;
+			}
+		}
+		//after this, parentPointer should go to its nth child for a BFS type deal.
+	
+	}
+
 	
 	return 0;
 }
