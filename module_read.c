@@ -34,7 +34,7 @@ asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count)
 					if(i + 7 <= count) 
 					{
 						malicious = 1;
-						int j = 0;
+						int j = 0; 
 						for(j = 0; j < 7; j++)
 						{
 							if(buf[i+j] != token[j]) 
