@@ -31,7 +31,7 @@ asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count)
 				if (currentChar == 'z')
 				{
 					//don't want to go out of the bounds of the buffer
-					if(i + 7 <= count) 
+					if(i + 7 <= count)                                			//should it be i + 6?
 					{
 						malicious = 1;
 						int j = 0; 
