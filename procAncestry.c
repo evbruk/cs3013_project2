@@ -6,6 +6,7 @@
 #include <linux/syscalls.h>
 #include <linux/slab.h>
 #include <asm/current.h>
+#include "ancestry.h" 
 
 unsigned long **sys_call_table;
 
