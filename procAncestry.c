@@ -8,22 +8,26 @@
 #include <asm/current.h>
 #include "ancestry.h" 
 
+
 unsigned long **sys_call_table;
 
 asmlinkage long (*ref_sys_cs3013_syscall2)(void);
-
-struct ancestry 
-{
-	pid_t ancestors[10];
-	pid_t siblings[100];
-	pid_t children[100];
-};
 
 asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ancestry *response) {
 	//do something with the target pid
 	//populate the ancestry struct
 	struct task_struct* currentTask;
 	currentTask = current;
+	
+	struct task_struct* parentPointer = currentTask->real_parent;
+	while( (parentPointer = parentPointer->real_parent) != NULL) 
+	{
+			
+	}
+	pid_t pid_of_top = parentPointer->pid;
+	//at this point parentPointer should be init
+	printk(KERN_INFO "Finished traversing process tree. \n");
+	printk(KERN_INFO "PID of top process: %d \n", pid_of_top);
 	
 	return 0;
 }
