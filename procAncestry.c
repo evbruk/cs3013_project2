@@ -60,8 +60,12 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 	printk(KERN_INFO "PID of parentPointer: %d \n", parentPointer->pid);
 	
 	int searching = 1;
+	int childIndex = 0;
+	struct list_head *currentChildSearch; //pointer to current BFS child being searched.
+	
 	while(searching)
 	{
+		//this searches through each child of the top process
 		list_for_each(list, &(parentPointer->children)) 
 		{
 			task=list_entry(list, struct task_struct, sibling);
@@ -69,9 +73,12 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 			{
 				printk(KERN_INFO "Specified task found! \n");
 				targetTask = task;
+				searching = 0;
 			}
 		}
-		//after this, parentPointer should go to its nth child for a BFS type deal.
+		//Update the parentPointer to be the first child of the child, (BFS)
+
+		//parentPointer = list_next_entry(currentChildSearch, parentPointer->children);
 	
 	}
 
