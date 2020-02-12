@@ -1,4 +1,4 @@
-obj-m := cs3013_project2.o module_open.o module_close.o module_read.o
+obj-m := module_combined.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 

@@ -1,6 +1,6 @@
-Feb 12 11:10:36 noah-VirtualBox kernel: [  509.005861] module_read: loading out-of-tree module taints kernel.
-Feb 12 11:10:36 noah-VirtualBox kernel: [  509.005886] module_read: module verification failed: signature and/or required key missing - tainting kernel
-Feb 12 11:10:36 noah-VirtualBox kernel: [  509.318825] Interceptor: Found syscall table at address: 0xC17F3240
-Feb 12 11:10:42 noah-VirtualBox kernel: [  509.318827] Loaded interceptor!
-<6>[  515.092060] User read from file descriptor 3d, but that read contained malicious code! 
+Feb 12 11:14:04 noah-VirtualBox kernel: [  717.302513] User 1000 is opening the file: test_document
+Feb 12 11:14:04 noah-VirtualBox kernel: [  717.302533] User read from file descriptor 3d, but that read contained malicious code! 
+Feb 12 11:14:04 noah-VirtualBox kernel: [  717.302536] User 1000 is closing file descriptor: 3 
+Feb 12 11:14:04 noah-VirtualBox kernel: [  717.302540] User 1000 is opening the file: test_document_nozoinks
+Feb 12 11:14:04 noah-VirtualBox kernel: [  717.302551] User 1000 is closing file descriptor: 3 
 
