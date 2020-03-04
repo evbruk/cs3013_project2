@@ -25,7 +25,7 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 	//do something with the target pid
 	//populate the ancestry struct
 	struct task_struct* currentTask;
-	currentTask = current;
+	//currentTask = current;
 	int pid = 0;
 	
 	struct ancestry localResponse;
@@ -39,8 +39,13 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 		return EFAULT;	
 	}
 
+	struct pid * pid_struct;
+	pid_struct = find_get_pid(pid); //get the pid struct for the request pid
+
+	currentTask = pid_task(pid_struct, PIDTYPE_PID);
 	struct task_struct* parentPointer = currentTask->real_parent;
 	
+	//this loop traverses to the top and breaks when a pid of 1 is found (top of process tree)
 	while(parentPointer != parentPointer->real_parent) 
 	{
 		printk(KERN_INFO "PID: %d \n", parentPointer->pid);
@@ -54,12 +59,55 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 		}
 	}
 	
+	int searching = 1;
+	struct list_head* children = &parentPointer->children; //the head of the list
+	
+	struct list_head *position = LIST_HEAD_INIT(children);
+	struct task_struct* child = 0;
+	
+	struct task_struct *child_type;
+
+	//doesn't do anything
+	int count = 0;	
+	int max_children = 100;
+	
+	list_for_each_entry(child_type, children, sibling)
+	{
+		printk(KERN_INFO "Child traversed. pid: %d\n", child_type->pid);	
+		if(count < max_children)
+		{
+			localResponse.children[count] = child_type->pid;
+		}else{
+			break;
+		}
+		count++;
+	}
+	
+	//making a copy of the current Task
+	struct task_struct * working_task = currentTask;
+	int sibling_count = 0;
+	int max_siblings = 100;
+	list_for_each_entry(working_task, &(currentTask->sibling), sibling)
+	{
+		printk(KERN_INFO "sibling traversed, PID: %d\n", working_task->pid);
+	}
+	
+	/*
+	list_for_each(position, children)
+	{
+		printk(KERN_INFO "Before grabbing entry...\n"); 
+		//child = list_entry(position, struct task_struct, children);
+		//printk(KERN_INFO "Child traversed! PID: %d\n", child->pid); 
+		
+	}*
+	
+	
+	
+	/*	
 	struct task_struct *task;
-	struct list_head *list;
 	struct task_struct *targetTask;
 	printk(KERN_INFO "PID of parentPointer: %d \n", parentPointer->pid);
 	
-	int searching = 1;
 	int childIndex = 0;
 	struct list_head *currentChildSearch; //pointer to current BFS child being searched.
 	
@@ -74,13 +122,14 @@ asmlinkage long new_sys_cs3013_syscall2(unsigned short *target_pid, struct ances
 				printk(KERN_INFO "Specified task found! \n");
 				targetTask = task;
 				searching = 0;
+				break;
 			}
 		}
 		//Update the parentPointer to be the first child of the child, (BFS)
 
 		//parentPointer = list_next_entry(currentChildSearch, parentPointer->children);
 	
-	}
+	}*/
 
 	
 	return 0;
