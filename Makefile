@@ -1,4 +1,4 @@
-obj-m := module_combined.o
+obj-m := module_combined.o ancestry_kernal_module.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 
