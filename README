@@ -1,6 +1,12 @@
 Eva Bruklich & Noah Parker
 ebruklich & nparker
 
+This is the re-submission for Project 2.
+
+For Part 1:
+test_document.txt and test_document_nozoinks.txt were used to test the effectiveness of part1. 
+the "test" executable (built from test.c) automatically tests with those files. 
+
 How to Build Program:
 To build the program, simply "make". After making it, type in "sudo insmod ancestry_kernel_module.ko" in order to satisfy Part 2. 
 For part 1 type in "sudo insmod module_combined.ko".
