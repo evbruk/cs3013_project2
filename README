@@ -95,3 +95,39 @@ PID: 1354
 PID: 1387
 Success! 
 
+EXAMPLE SYSLOG OUTPUT:
+
+Mar  4 21:27:09 noah-VirtualBox kernel: [  740.121706] Loaded interceptor!<6>[  748.897485] PID: 1024 
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897489] PID: 1013 
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897491] PID: 821 
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897492] PID: 1 
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897494] Child traversed. pid: 195
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897495] Child traversed. pid: 236
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897496] Child traversed. pid: 287
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897497] Child traversed. pid: 651
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897499] Child traversed. pid: 668
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897500] Child traversed. pid: 670
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897501] Child traversed. pid: 673
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897502] Child traversed. pid: 674
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897503] Child traversed. pid: 696
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897504] Child traversed. pid: 704
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897506] Child traversed. pid: 713
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897507] Child traversed. pid: 716
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897508] Child traversed. pid: 738
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897510] Child traversed. pid: 739
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897511] Child traversed. pid: 801
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897512] Child traversed. pid: 804
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897513] Child traversed. pid: 821
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897514] Child traversed. pid: 1019
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897515] Child traversed. pid: 1301
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897517] Child traversed. pid: 1398
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897518] Child traversed. pid: 1427
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897519] Child traversed. pid: 1527
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897520] Child traversed. pid: 1602
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897521] Child traversed. pid: 1617
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897523] Child traversed. pid: 1859
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897528] Copying to user space...
+Mar  4 21:27:09 noah-VirtualBox kernel: [  748.897529] Copied! Returning... 
+
+
+
